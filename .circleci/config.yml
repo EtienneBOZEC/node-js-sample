@@ -16,10 +16,12 @@ jobs:
           command: docker images
       - run:
           name: Run Docker Container
-          command: docker run -d --name sample-container my-node-app
+          command: docker run -d -p 8080:8080 --name sample-container my-node-app
       - run:
-          name: Test Ping
-          command: docker exec sample-container ping -c 4 127.0.0.1
+          name: Test Application with Curl
+          command: |
+            sleep 5  # Attendre que le service démarre
+            curl -f http://localhost:8080 || (docker logs sample-container && exit 1)
 
   push:
     docker:
