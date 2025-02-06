@@ -4,10 +4,9 @@ orbs:
   docker: circleci/docker@2.8.2
 
 workflows:
-  commit:
+  build-and-publish:
     jobs:
       - docker/publish:
-        image: $DOCKERHUB_USERNAME/my-node-app
-        docker-username: $DOCKERHUB_USERNAME
-        docker-password: $DOCKERHUB_ACCESS_TOKEN
+          image: $DOCKERHUB_USERNAME/my-node-app
+          tag: latest
 
