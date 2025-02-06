@@ -37,8 +37,7 @@ jobs:
           command: echo "$DOCKERHUB_ACCESS_TOKEN" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
       - run:
           name: Pousser l'image Docker
-          command: |
-            docker push $DOCKERHUB_USERNAME/my-node-app:latest
+          command: docker push $DOCKERHUB_USERNAME/my-node-app:latest
 
 
 workflows:
