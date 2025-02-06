@@ -6,8 +6,6 @@ jobs:
       - image: circleci/node:18-bullseye
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 20.10.18
       - run:
           name: Build Docker Image
           command: docker build -t sample-app .
