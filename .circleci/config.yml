@@ -9,4 +9,6 @@ workflows:
       - docker/publish:
           image: $DOCKERHUB_USERNAME/my-node-app
           tag: latest
+          docker-password: DOCKERHUB_ACCESS_TOKEN
+          docker-username: DOCKERHUB_USERNAME
 
