@@ -26,7 +26,7 @@ jobs:
           command: docker images
       - run:
           name: Exécuter le conteneur Docker
-          command: docker run -d -p 8080:8080 --name sample-container $DOCKERHUB_USERNAMEmy-node-app
+          command: docker run -d -p 8080:8080 --name sample-container $DOCKERHUB_USERNAME/my-node-app
       - run:
           name: Tester l'application avec Curl
           command: |
