@@ -16,7 +16,7 @@ jobs:
           command: docker images
       - run:
           name: Run Docker Container
-          command: docker run -d --name sample-container sample-app
+          command: docker run -d --name sample-container my-node-app
       - run:
           name: Test Ping
           command: docker exec sample-container ping -c 4 127.0.0.1
