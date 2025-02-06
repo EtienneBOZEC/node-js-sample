@@ -1,28 +1,13 @@
 version: 2.1
 
 orbs:
-  docker: circleci/docker@2.3.0 
-
-jobs:
-  build-and-push:
-    machine:
-      image: ubuntu-2204:current 
-
-    steps:
-      - checkout
-
-      - docker/build:
-          image: $DOCKERHUB_USERNAME/my-node-app
-          tag: latest
-
-      - docker/push:
-          image: $DOCKERHUB_USERNAME/my-node-app
-          tag: latest
-          username: $DOCKERHUB_USERNAME
-          password: $DOCKERHUB_ACCESS_TOKEN
+  docker: circleci/docker@2.8.2
 
 workflows:
-  version: 2
-  build_and_deploy:
+  commit:
     jobs:
-      - build-and-push
+      - docker/publish:
+        image: $DOCKERHUB_USERNAME/my-node-app
+        docker-username: $DOCKERHUB_USERNAME
+        docker-password: $DOCKERHUB_ACCESS_TOKEN
+
