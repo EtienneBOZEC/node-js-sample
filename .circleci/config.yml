@@ -6,37 +6,48 @@ jobs:
       image: ubuntu-2204:2024.11.1
     steps:
       - checkout
-      - setup_remote_docker
       - run:
-          name: Build Docker Image
+          name: Installer Node.js 18
+          command: |
+            curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+            sudo apt-get install -y nodejs
+            node -v  # Vérifier la version de Node.js
+            npm -v   # Vérifier la version de npm
+      - run:
+          name: Installer les dépendances
+          command: |
+            npm install
+      - run:
+          name: Construire l'image Docker
           command: |
             docker build -t my-node-app:latest .
       - run:
-          name: List Docker Images
+          name: Lister les images Docker
           command: docker images
       - run:
-          name: Run Docker Container
+          name: Exécuter le conteneur Docker
           command: docker run -d -p 8080:8080 --name sample-container my-node-app
       - run:
-          name: Check if the app is running inside the container
-          command: docker exec sample-container curl http://localhost:8080
-      - run:
-          name: Test Application with Curl
+          name: Tester l'application avec Curl
           command: |
             sleep 5  # Attendre que le service démarre
             curl -f http://localhost:8080 || (docker logs sample-container && exit 1)
 
   push:
-    docker:
-      - image: cimg/base:stable  # Image avec Docker
+    machine:
+      image: ubuntu-2204:2024.11.1  # Même image Ubuntu 22.04
     steps:
       - checkout
-      - setup_remote_docker
       - run:
-          name: Login to Docker Hub
+          name: Installer Docker
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y docker.io
+      - run:
+          name: Se connecter à Docker Hub
           command: echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
       - run:
-          name: Build and Push Docker Image
+          name: Construire et pousser l'image Docker
           command: |
             docker build -t $DOCKERHUB_USERNAME/sample-app:latest .
             docker push $DOCKERHUB_USERNAME/sample-app:latest
