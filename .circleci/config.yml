@@ -20,7 +20,7 @@ jobs:
       - run:
           name: Construire l'image Docker
           command: |
-            docker build -t my-node-app:latest .
+            docker build -t $DOCKERHUB_USERNAME/my-node-app:latest .
       - run:
           name: Lister les images Docker
           command: docker images
