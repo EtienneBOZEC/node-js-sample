@@ -18,6 +18,9 @@ jobs:
           name: Run Docker Container
           command: docker run -d -p 8080:8080 --name sample-container my-node-app
       - run:
+          name: Check if the app is running inside the container
+          command: docker exec sample-container curl http://localhost:8080
+      - run:
           name: Test Application with Curl
           command: |
             sleep 5  # Attendre que le service démarre
